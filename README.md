@@ -1,6 +1,9 @@
 # emoji_classification
 This repo includes source code used for EECS 595 course project Emoji Prediction in English Tweets.
 
+## Data Collection
+Please go to [SemEval-2018 Task 2 Data](https://competitions.codalab.org/competitions/17344#learn_the_details-data) to download the datasets.
+
 ## SVM
 For SVM, run the svm/k-fold-linear.py.
 
