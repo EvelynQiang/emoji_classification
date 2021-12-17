@@ -109,33 +109,22 @@ data.docs = data.docs + data1.docs
 labels = np.array(data.labels)
 labels1 = np.array(data1.labels)
 
-# docs, v, _ = doc_to_ngrams(data.docs, min_df=opt.min_df,
-#                           used_cache = False, cache = False,
-#                           dim_reduce = opt.dim_reduce,
-#                           c_ngmin = opt.c_ngmin,
-#                           c_ngmax = opt.c_ngmax,
-#                           w_ngmin = opt.w_ngmin,
-#                           w_ngmax = opt.w_ngmax,
-#                           lowercase = opt.lowercase,
-#                           input_name = opt.input_prefix)
+docs, v, _ = doc_to_ngrams(data.docs, min_df=opt.min_df,
+                          used_cache = False, cache = False,
+                          dim_reduce = opt.dim_reduce,
+                          c_ngmin = opt.c_ngmin,
+                          c_ngmax = opt.c_ngmax,
+                          w_ngmin = opt.w_ngmin,
+                          w_ngmax = opt.w_ngmax,
+                          lowercase = opt.lowercase,
+                          input_name = opt.input_prefix)
 
 data1 = []
 for i in data.docs:
     data1.append(word_tokenize(i))
 
-# model = gensim.models.Word2Vec(data1, min_count=1, window=5, sg=0)
-# sequencer = Sequencer(all_words = [token for seq in data1 for token in seq],
-#               max_words = 1200,
-#               seq_len = 15,
-#               embedding_matrix = model.wv
-#              )
-
-# docs = []
-# for i in data.docs:
-#     docs.append(sequencer.textToVector(i))
-
 tagged_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in enumerate(data.docs)]
-max_epochs = 1
+max_epochs = 10
 vec_size = 20
 alpha = 0.025
 model = Doc2Vec(alpha=alpha,
@@ -152,7 +141,6 @@ for epoch in range(max_epochs):
     model.alpha -= 0.0002
     # fix the learning rate, no decay
     model.min_alpha = model.alpha
-
 docs = []
 for i in data1:
     docs.append(model.infer_vector(i))
